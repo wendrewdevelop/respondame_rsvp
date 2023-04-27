@@ -15,7 +15,7 @@ RUN mv /usr/bin/python /usr/bin/python_old
 RUN cd /usr/bin && ln -s python3.6 python
 
 #Install the required python packages listed in the requirements file
-RUN python -m pip install -r requirements.txt
+RUN python3 -m pip3 install -r requirements.txt
 
 #Run uwsgi with the configuration in the .ini file
 CMD ["uwsgi","--ini","app.ini"]
