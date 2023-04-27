@@ -5,7 +5,7 @@ FROM centos:7
 COPY . ./app
 
 #Install python and other programs required to run our app
-RUN yum install -y python-pip python36u python36u-libs python36-devel python36u-pip uwsgi which gcc
+RUN yum install -y python3-pip python36u python36u-libs python36-devel python36u-pip uwsgi which gcc
 
 #Change the working directory to /app
 WORKDIR /app
