@@ -90,6 +90,7 @@ def confirmation_export(lista_presenca):
 
 
 if __name__ == '__main__':
+    # https://respondame-app.herokuapp.com/ | https://git.heroku.com/respondame-app.git
     with app.app_context():
         db.create_all()
     app.run(debug=True, port=5050)
