@@ -83,13 +83,9 @@ def confirmation_export(lista_presenca):
             People.confirmation==True
         ).all()
         df = pd.DataFrame(confirmations)
-        return Response(
-            df.to_csv('confirmados.csv', index=False), 
-            mimetype='text/csv', 
-            headers={
-                "Content-disposition":"attachment; filename=confirmados.csv"
-            }
-        )
+        response = make_response(df.to_csv('confirmados.csv', index=False))
+        response.headers['Content-Type'] = 'text/csv'
+        return Response(response)
     elif request.view_args['lista_presenca'] == 'naoconfirmados':
         confirmations = db.session.query(
             People.name.label("Nome")
@@ -97,13 +93,9 @@ def confirmation_export(lista_presenca):
             People.confirmation==False
         ).all()
         df = pd.DataFrame(confirmations)
-        return Response(
-            df.to_csv('nao_confirmados.csv', index=False), 
-            mimetype='text/csv', 
-            headers={
-                "Content-disposition":"attachment; filename=nao_confirmados.csv"
-            }
-        )
+        response = make_response(df.to_csv('nao_confirmados.csv', index=False))
+        response.headers['Content-Type'] = 'text/csv'
+        return Response(response)
     else:
         return """URL NÃO EXISTE!!!!!!"""
 
