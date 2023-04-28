@@ -1,4 +1,13 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, Response
+from flask import (
+    Flask, 
+    render_template, 
+    request, 
+    flash, 
+    redirect, 
+    url_for, 
+    Response,
+    make_response
+)
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 from datetime import date
@@ -74,9 +83,8 @@ def confirmation_export(lista_presenca):
             People.confirmation==True
         ).all()
         df = pd.DataFrame(confirmations)
-        df.to_csv('confirmados.csv', index=False)
         return Response(
-            df, 
+            df.to_csv('confirmados.csv', index=False), 
             mimetype='text/csv', 
             headers={
                 "Content-disposition":"attachment; filename=confirmados.csv"
@@ -89,9 +97,8 @@ def confirmation_export(lista_presenca):
             People.confirmation==False
         ).all()
         df = pd.DataFrame(confirmations)
-        df.to_csv('nao_confirmados.csv', index=False)
         return Response(
-            df, 
+            df.to_csv('nao_confirmados.csv', index=False), 
             mimetype='text/csv', 
             headers={
                 "Content-disposition":"attachment; filename=nao_confirmados.csv"
