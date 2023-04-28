@@ -82,7 +82,7 @@ def confirmation_export(lista_presenca):
     if request.view_args['lista_presenca'] == 'confirmados':
         confirmations = db.session.query(
             People.name.label("Nome"),
-            People.confirmated_at.label("Confirmado em")
+            People.confirmated_at.label("Confirmadoem")
         ).filter(
             People.confirmation==True
         ).all()
