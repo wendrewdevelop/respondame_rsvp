@@ -90,7 +90,7 @@ def confirmation_export(lista_presenca):
             df,
             mimetype="text/csv",
             as_attachment=True,
-            attachment_filename='confirmados.csv'            
+            download_name='confirmados.csv'            
         )
     elif request.view_args['lista_presenca'] == 'naoconfirmados':
         notconfirmations = db.session.query(
@@ -105,7 +105,7 @@ def confirmation_export(lista_presenca):
             df,
             mimetype="text/csv",
             as_attachment=True,
-            attachment_filename='nao_confirmados.csv'            
+            download_name='nao_confirmados.csv'            
         )
     else:
         return """URL NÃO EXISTE!!!!!!"""
