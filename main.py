@@ -7,13 +7,15 @@ from flask import (
     url_for, 
     Response,
     make_response,
-    send_file
+    send_file,
+    jsonify
 )
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 from datetime import date
 import os
 import psycopg2
+from io import StringIO
 
 
 app = Flask(__name__)
@@ -76,6 +78,7 @@ def confirmation_success():
 
 @app.route("/<lista_presenca>", methods=['GET', 'POST'])
 def confirmation_export(lista_presenca):
+    output = StringIO()
     if request.view_args['lista_presenca'] == 'confirmados':
         confirmations = db.session.query(
             People.name.label("Nome"),
@@ -83,29 +86,16 @@ def confirmation_export(lista_presenca):
         ).filter(
             People.confirmation==True
         ).all()
-        df = pd.DataFrame(confirmations)
-        print(df)
-        df.to_csv('confirmados.csv', index=False)
-        response = make_response(df)
-        response.headers['Content-Disposition'] = 'attachment; filename=confirmados.csv'
-        response.mimetype = 'text/csv'
-        return response
+        return render_template('confirmados.html', confirmations=confirmations)
     elif request.view_args['lista_presenca'] == 'naoconfirmados':
         notconfirmations = db.session.query(
             People.name.label("Nome")
         ).filter(
             People.confirmation==False
         ).all()
-        df = pd.DataFrame(notconfirmations)
-        print(df)
-        df.to_csv('nao_confirmados.csv', index=False)
-        response = make_response(df)
-        response.headers['Content-Disposition'] = 'attachment; filename=nao_confirmados.csv'
-        response.mimetype = 'text/csv'
-        return response
+        return render_template('naoconfirmados.html', notconfirmations=notconfirmations)
     else:
         return """URL NÃO EXISTE!!!!!!"""
-
 
 if __name__ == '__main__':
     # https://respondame-app.herokuapp.com/ | https://git.heroku.com/respondame-app.git
