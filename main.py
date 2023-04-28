@@ -38,7 +38,7 @@ def confirmation():
         People.confirmation!=True
     )
     if search:
-        query = query.filter(People.name.like(f'%{search}%'))
+        query = query.filter(People.name.ilike(f'%{search}%'))
     query = query.all()
 
     print(query)

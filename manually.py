@@ -125,21 +125,13 @@ conn = psycopg2.connect(
     database="d39i5fkh1gbid",
     user="usyehuakcblsnj",
     password="418a91ad288ccecb68d02d9a745c92b022edfff5fae2890e1f4ed4e719477dbe",
-    sslmode='require'
-)
+    sslmode='require')
 cur = conn.cursor()
-
-cur.execute(
-    'CREATE TABLE people (id serial PRIMARY KEY,'
-    'name varchar (250) NOT NULL,'
-    'confirmation boolean,'
-    'confirmated_at varchar (250);'  
-)
 
 #Insert links into table
 def data_entry():
     for item in list_:
-        cur.execute("INSERT INTO people (name, confirmation) VALUES(%s, %s)", (item,))
+        cur.execute("INSERT INTO people (name) VALUES(%s, %s)", (item,))
     conn.commit()
 
 data_entry()  # ==> call the function
@@ -150,6 +142,11 @@ rows = cur.fetchall()
 for row in rows:
     print(row)
 
-conn.commit()
-cur.close()
+cur.execute(
+    'CREATE TABLE people (id serial PRIMARY KEY,'
+    'name varchar (250) NOT NULL,'
+    'confirmation boolean,'
+    'confirmated_at varchar (250);'  
+)
+
 conn.close()
