@@ -95,41 +95,45 @@
             <div class="p-5 mb-4 bg-body-tertiary rounded-3">
               <div class="container-fluid py-5">
                 <h1 class="display-5 fw-bold text-center">Confirmação de presença</h1><br>
+                <p class="text-center h4" style="color: red;">clique no seu nome para confirmar presença.</p>
                 <form method="get">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="search" placeholder="PESQUISE SEU NOME" aria-describedby="button-addon2">
                         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">pesquisar</button>
                     </div>
                 </form>
-                <form class="row g-3" action="{{request.path}}" method="POST">
+                
                     <div class="col-md-12">
                         <table class="table table-primary table-bordered">
                             <thead class="text-center">
                                 <tr>
                                   <th scope="col">Nome</th>
-                                  <th scope="col">Confirmação</th>
                                 </tr>
                             </thead>
+                            <form class="row g-3" action="{{request.path}}" method="POST">
                             {% for people in query %}
-                            <tbody class="text-center">
-                                <tr>
-                                  <th>{{people.name}}</th>
-                                  <td>
-                                    <input class="form-check-input me-1" 
-                                        type="checkbox" 
-                                        id="confirmation"
-                                        name="confirmation">
-                                  </td>
-                                </tr>
-                            </tbody>
-                            <input type="hidden" name="people_name" id="people_name" value="{{people.name}}">
+                            
+                              <tbody class="text-center">
+                                  <tr>
+                                    <th>
+                                      <div class="input-group input-group mb-3">
+                                        <input type="submit" 
+                                          style="background-color:  #cfe2ff!important;"
+                                          class="form-control text-center" 
+                                          aria-label="Sizing example input" 
+                                          aria-describedby="inputGroup-sizing-sm" 
+                                          name="people_name"
+                                          value="{{people.name}}">
+                                      </div>
+                                    </th>
+                                  </tr>
+                              </tbody>
+                            
                             {% endfor %}
+                          </form>
                         </table>
                     </div>
-                    <div class="col text-center pt-2">
-                        <button type="submit" class="btn btn-success col-md-2">Confirmar presença</button>
-                    </div>
-                </form>
+                
               </div>
             </div>
             {%- for message in get_flashed_messages() %}

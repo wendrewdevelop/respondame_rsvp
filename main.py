@@ -38,35 +38,41 @@ class People(db.Model):
         self.confirmation = confirmation
         self.confirmated_at = confirmated_at
 
+class Confirmed(db.Model):
+    __tablename__ = 'confirmed'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String, nullable=False)
+    confirmated_at = db.Column(db.String, nullable=True)
+
+    def __init__(self, name, confirmated_at):
+        self.name = name
+        self.confirmated_at = confirmated_at
+
 
 @app.route("/", methods=['GET', 'POST'])
 def confirmation():
     search = request.args.get("search")
-    print(search)
+    confirmated = db.session.query(
+        Confirmed.name.label("name")
+    )
     query = db.session.query(
         People.name.label("name"),
         People.id.label("id")
     ).filter(
-        People.confirmation!=True
+        People.name.notin_(confirmated)
     )
     if search:
         query = query.filter(People.name.ilike(f'%{search}%'))
     query = query.all()
 
-    print(query)
-
-    peoples = request.form.getlist('people_name')
-    confirmations = request.form.getlist('confirmation')
-    for people, confirmation in zip(peoples, confirmations):
-        print(people, confirmation)
-        if request.method == 'POST':
-            confirm = People.query.filter(
-                People.name==people
-            ).first()
-            confirm.confirmation = True if confirmation == 'on' else False
-            confirm.confirmated_at = date.today().strftime('%d-%m-%Y')
-            db.session.commit()
-            return redirect(url_for('confirmation_success'))
+    if request.method == 'POST':
+        db.session.add(Confirmed(
+            name=request.form['people_name'],
+            confirmated_at=date.today().strftime('%d-%m-%Y')
+        ))
+        db.session.commit()
+        return redirect(url_for('confirmation_success'))
         
     return render_template('index.html', query=query)
 
