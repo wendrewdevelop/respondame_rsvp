@@ -2,13 +2,25 @@ from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 from datetime import date
+import os
+import psycopg2
 
 
 app = Flask(__name__)
 db = SQLAlchemy()
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///rsvp.sqlite3"
-app.config['SECRET_KEY'] = "random string"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///rsvp.sqlite3"
+app.config['SECRET_KEY'] = "shutupandtakemymoney"
 db.init_app(app)
+
+def get_db_connection():
+    conn = psycopg2.connect(
+        host="ec2-3-232-218-211.compute-1.amazonaws.com",
+        database="d39i5fkh1gbid",
+        user="usyehuakcblsnj",
+        password="418a91ad288ccecb68d02d9a745c92b022edfff5fae2890e1f4ed4e719477dbe",
+        sslmode='require')
+    
+    return conn
 
 class People(db.Model):
     __tablename__ = 'people'
