@@ -75,7 +75,7 @@ def confirmation_export(lista_presenca):
         ).all()
         df = pd.DataFrame(confirmations)
         df.to_csv('confirmados.csv', index=False)
-        Response(
+        return Response(
             df, 
             mimetype='text/csv', 
             headers={
@@ -90,7 +90,7 @@ def confirmation_export(lista_presenca):
         ).all()
         df = pd.DataFrame(confirmations)
         df.to_csv('nao_confirmados.csv', index=False)
-        Response(
+        return Response(
             df, 
             mimetype='text/csv', 
             headers={
@@ -99,11 +99,6 @@ def confirmation_export(lista_presenca):
         )
     else:
         return """URL NÃO EXISTE!!!!!!"""
-
-    
-    return """
-        Relatório gerado com sucesso!!
-    """
 
 
 if __name__ == '__main__':
