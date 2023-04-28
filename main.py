@@ -83,16 +83,18 @@ def confirmation_export(lista_presenca):
             People.confirmation==True
         ).all()
         df = pd.DataFrame(confirmations)
+        print(df)
         response = make_response(df.to_csv('confirmados.csv', index=False))
         response.headers['Content-Type'] = 'text/csv'
         return Response(response)
     elif request.view_args['lista_presenca'] == 'naoconfirmados':
-        confirmations = db.session.query(
+        notconfirmations = db.session.query(
             People.name.label("Nome")
         ).filter(
             People.confirmation==False
         ).all()
-        df = pd.DataFrame(confirmations)
+        df = pd.DataFrame(notconfirmations)
+        print(df)
         response = make_response(df.to_csv('nao_confirmados.csv', index=False))
         response.headers['Content-Type'] = 'text/csv'
         return Response(response)
