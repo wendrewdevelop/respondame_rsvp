@@ -6,7 +6,8 @@ from datetime import date
 
 app = Flask(__name__)
 db = SQLAlchemy()
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///rsvp.sqlite3"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///rsvp.sqlite3"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:/home/ubuntu/respondame_rsvp/rsvp.sqlite3"
 app.config['SECRET_KEY'] = "random string"
 db.init_app(app)
 
