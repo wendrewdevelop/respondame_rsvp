@@ -86,12 +86,10 @@ def confirmation_export(lista_presenca):
         df = pd.DataFrame(confirmations)
         print(df)
         df.to_csv('confirmados.csv', index=False)
-        return send_file(
-            df,
-            mimetype="text/csv",
-            as_attachment=True,
-            download_name='confirmados.csv'            
-        )
+        response = make_response(df)
+        response.headers['Content-Disposition'] = 'attachment; filename=confirmados.csv'
+        response.mimetype = 'text/csv'
+        return response
     elif request.view_args['lista_presenca'] == 'naoconfirmados':
         notconfirmations = db.session.query(
             People.name.label("Nome")
@@ -101,12 +99,10 @@ def confirmation_export(lista_presenca):
         df = pd.DataFrame(notconfirmations)
         print(df)
         df.to_csv('nao_confirmados.csv', index=False)
-        return send_file(
-            df,
-            mimetype="text/csv",
-            as_attachment=True,
-            download_name='nao_confirmados.csv'            
-        )
+        response = make_response(df)
+        response.headers['Content-Disposition'] = 'attachment; filename=nao_confirmados.csv'
+        response.mimetype = 'text/csv'
+        return response
     else:
         return """URL NÃO EXISTE!!!!!!"""
 
