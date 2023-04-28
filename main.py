@@ -6,7 +6,8 @@ from flask import (
     redirect, 
     url_for, 
     Response,
-    make_response
+    make_response,
+    send_file
 )
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
@@ -84,9 +85,13 @@ def confirmation_export(lista_presenca):
         ).all()
         df = pd.DataFrame(confirmations)
         print(df)
-        response = make_response(df.to_csv('confirmados.csv', index=False))
-        response.headers['Content-Type'] = 'text/csv'
-        return Response(response)
+        df.to_csv('confirmados.csv', index=False)
+        return send_file(
+            df,
+            mimetype="text/csv",
+            as_attachment=True,
+            attachment_filename='confirmados.csv'            
+        )
     elif request.view_args['lista_presenca'] == 'naoconfirmados':
         notconfirmations = db.session.query(
             People.name.label("Nome")
@@ -95,9 +100,13 @@ def confirmation_export(lista_presenca):
         ).all()
         df = pd.DataFrame(notconfirmations)
         print(df)
-        response = make_response(df.to_csv('nao_confirmados.csv', index=False))
-        response.headers['Content-Type'] = 'text/csv'
-        return Response(response)
+        df.to_csv('nao_confirmados.csv', index=False)
+        return send_file(
+            df,
+            mimetype="text/csv",
+            as_attachment=True,
+            attachment_filename='nao_confirmados.csv'            
+        )
     else:
         return """URL NÃO EXISTE!!!!!!"""
 
