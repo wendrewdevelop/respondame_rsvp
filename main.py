@@ -21,7 +21,7 @@ from io import StringIO
 app = Flask(__name__)
 db = SQLAlchemy()
 #app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///rsvp.sqlite3"
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://usyehuakcblsnj:418a91ad288ccecb68d02d9a745c92b022edfff5fae2890e1f4ed4e719477dbe@ec2-3-232-218-211.compute-1.amazonaws.com/d39i5fkh1gbid"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://hcddwknagsewew:0b9d74dd199f8820658a021e036f0bf6d3a2180718194ffb95ceb232b8ef12a6@ec2-52-21-233-246.compute-1.amazonaws.com/dbbf0e2lhbsq33"
 app.config['SECRET_KEY'] = "shutupandtakemymoney"
 db.init_app(app)
 
